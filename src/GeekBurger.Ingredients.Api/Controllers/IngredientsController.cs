@@ -26,7 +26,7 @@ namespace GeekBurger.Ingredients.Api.Controllers
         [HttpGet("{ingredientId}", Name = "GetIngredient")]
         public IActionResult Get(Guid productId, Guid ingredientId)
         {
-            var ingredients = _mockRepository.GetIngredients(productId);
+            var ingredients = _mockRepository.GetIngredient(productId, ingredientId);
 
             return Ok(ingredients);
         }
@@ -36,7 +36,7 @@ namespace GeekBurger.Ingredients.Api.Controllers
         {
             var ingredient = _mockRepository.Create(productId, request);
 
-            return CreatedAtRoute("GetIngredient", new { productId = ingredient.ProductId, id = ingredient.Id });
+            return Created($"http://{Request.Host.Value}/products/{productId}/ingredients/{ingredient.Id}", ingredient);
         }
 
         [HttpPut("{ingredientId}")]
