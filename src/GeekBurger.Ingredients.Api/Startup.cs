@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GeekBurger.Ingredients.Api.AutoMapper;
 using GeekBurger.Ingredients.Api.Data;
+using GeekBurger.Ingredients.Api.Models;
+using GeekBurger.Ingredients.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +28,7 @@ namespace GeekBurger.Ingredients.Api
             services.AddAutoMapper(m => m.AddProfile(new ApplicationProfile()));
 
             services.AddScoped<MockRepository>();
+            services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
 
             string applicationPath = PlatformServices.Default.Application.ApplicationBasePath;
             string applicationName = PlatformServices.Default.Application.ApplicationName;
@@ -61,6 +64,13 @@ namespace GeekBurger.Ingredients.Api
             app.UseCors((c) => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseMvc();
+        }
+
+        private void InitializeConfigs(IServiceCollection services)
+        {
+            var configuration = Configuration.Get<Configuration>();
+
+            services.AddSingleton(configuration);
         }
     }
 }
