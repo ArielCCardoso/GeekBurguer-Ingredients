@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GeekBurger.Ingredients.Api.AutoMapper;
+using GeekBurger.Ingredients.Api.Data;
+using GeekBurger.Ingredients.Api.Models;
+using GeekBurger.Ingredients.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
+using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
 
 namespace GeekBurger.Ingredients.Api
 {
@@ -23,6 +25,22 @@ namespace GeekBurger.Ingredients.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(m => m.AddProfile(new ApplicationProfile()));
+
+            services.AddScoped<MockRepository>();
+            services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
+
+            string applicationPath = PlatformServices.Default.Application.ApplicationBasePath;
+            string applicationName = PlatformServices.Default.Application.ApplicationName;
+            string path = Path.Combine(applicationPath, $"{applicationName}.xml");
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Geek Burger Ingredients API", Version = "v1" });
+
+                c.IncludeXmlComments(path);
+            });
+
             services.AddMvc();
         }
 
@@ -34,7 +52,25 @@ namespace GeekBurger.Ingredients.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Geek Burger Ingredients API");
+            });
+
+            app.UseCors((c) => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseMvc();
+        }
+
+        private void InitializeConfigs(IServiceCollection services)
+        {
+            var configuration = Configuration.Get<Configuration>();
+
+            services.AddSingleton(configuration);
         }
     }
 }
