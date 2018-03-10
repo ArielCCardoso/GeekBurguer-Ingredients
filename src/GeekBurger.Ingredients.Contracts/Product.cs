@@ -4,6 +4,9 @@ using System.Text;
 
 namespace GeekBurger.Ingredients.Contracts
 {
+   /// <summary>
+   /// Classe com as informações do produto
+   /// </summary>
    public  class Product
     {
         public Guid Id { get; set; }
