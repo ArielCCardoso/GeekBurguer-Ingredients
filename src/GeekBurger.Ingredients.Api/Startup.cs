@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeekBurger.Ingredients.Api.AutoMapper;
 using GeekBurger.Ingredients.Api.Data;
+using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services;
 using Microsoft.AspNetCore.Builder;
@@ -27,9 +28,22 @@ namespace GeekBurger.Ingredients.Api
         {
             services.AddAutoMapper(m => m.AddProfile(new ApplicationProfile()));
 
+            RegisterDependencies(services);
+
+            AddSwagger(services);
+
+            services.AddMvc();
+        }
+
+        private static void RegisterDependencies(IServiceCollection services)
+        {
             services.AddScoped<MockRepository>();
             services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+        }
 
+        private static void AddSwagger(IServiceCollection services)
+        {
             string applicationPath = PlatformServices.Default.Application.ApplicationBasePath;
             string applicationName = PlatformServices.Default.Application.ApplicationName;
             string path = Path.Combine(applicationPath, $"{applicationName}.xml");
@@ -40,8 +54,6 @@ namespace GeekBurger.Ingredients.Api
 
                 c.IncludeXmlComments(path);
             });
-
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

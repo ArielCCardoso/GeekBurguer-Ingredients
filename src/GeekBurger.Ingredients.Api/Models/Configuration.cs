@@ -3,6 +3,8 @@
     public class Configuration
     {
         public ServiceBus ServiceBus { get; set; }
+
+        public string ProductResource { get; set; }
     }
 
     public class ServiceBus
