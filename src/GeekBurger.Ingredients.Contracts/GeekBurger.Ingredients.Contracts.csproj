@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>Jéssica, Reginaldo, Ariel, Wellington e Guilherme</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\GeekBurger.Ingredients.Contracts.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
