@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GeekBurger.Ingredients.Contracts
 {
-   public class ProductRestriction
+   public class ProductRestrictionRequest
     {
         public IEnumerable<string> Restrictions { get; set; }
     }
