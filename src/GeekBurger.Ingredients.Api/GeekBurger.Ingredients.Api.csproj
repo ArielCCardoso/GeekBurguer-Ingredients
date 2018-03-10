@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Description>Api.Ingredients</Description>
+    <Authors>Jéssica, Reginaldo, Ariel, Guilherme e Wellington</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\GeekBurger.Ingredients.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
