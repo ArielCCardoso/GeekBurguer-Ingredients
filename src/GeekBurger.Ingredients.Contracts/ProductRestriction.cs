@@ -6,6 +6,6 @@ namespace GeekBurger.Ingredients.Contracts
 {
    public class ProductRestriction
     {
-       //classe de restrição dos produtos
+        public IEnumerable<string> Restrictions { get; set; }
     }
 }
