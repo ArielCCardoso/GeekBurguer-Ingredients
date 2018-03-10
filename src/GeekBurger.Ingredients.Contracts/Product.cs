@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace GeekBurger.Ingredients.Contracts
 {
-    public class IngredientResponse
+   public  class Product
     {
         public Guid Id { get; set; }
 

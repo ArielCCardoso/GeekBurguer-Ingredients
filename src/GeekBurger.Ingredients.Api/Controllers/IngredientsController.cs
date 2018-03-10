@@ -32,7 +32,7 @@ namespace GeekBurger.Ingredients.Api.Controllers
         }
 
         [HttpPost()]
-        public IActionResult Create(Guid productId, [FromBody] IngredientRequest request)
+        public IActionResult Create(Guid productId, [FromBody] Product request)
         {
             var ingredient = _mockRepository.Create(productId, request);
 
@@ -40,7 +40,7 @@ namespace GeekBurger.Ingredients.Api.Controllers
         }
 
         [HttpPut("{ingredientId}")]
-        public IActionResult Update(Guid productId, Guid ingredientId, [FromBody] IngredientRequest request)
+        public IActionResult Update(Guid productId, Guid ingredientId, [FromBody] Product request)
         {
             var ingredient = _mockRepository.Update(productId, ingredientId, request);
 

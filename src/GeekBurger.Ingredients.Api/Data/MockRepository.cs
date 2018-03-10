@@ -15,7 +15,7 @@ namespace GeekBurger.Ingredients.Api.Data
             _mapper = mapper;
         }
 
-        public IEnumerable<IngredientResponse> GetIngredients(Guid productId)
+        public IEnumerable<Product> GetIngredients(Guid productId)
         {
             var ingredients = new List<Ingredient>()
             {
@@ -25,28 +25,28 @@ namespace GeekBurger.Ingredients.Api.Data
                 Ingredient.Create(productId, "Sal"),
             };
 
-            return _mapper.Map<IEnumerable<IngredientResponse>>(ingredients);
+            return _mapper.Map<IEnumerable<Product>>(ingredients);
         }
 
-        public IngredientResponse GetIngredient(Guid productId, Guid ingredientId)
+        public Product GetIngredient(Guid productId, Guid ingredientId)
         {
             var ingredient = Ingredient.Create(productId, "Açucar");
 
-            return _mapper.Map<IngredientResponse>(ingredient);
+            return _mapper.Map<Product>(ingredient);
         }
 
-        public IngredientResponse Create(Guid productId, IngredientRequest request)
+        public Product Create(Guid productId, Product request)
         {
             var ingredient = Ingredient.Create(productId, request.Description);
 
-            return _mapper.Map<IngredientResponse>(ingredient);
+            return _mapper.Map<Product>(ingredient);
         }
 
-        public IngredientResponse Update(Guid productId, Guid ingredientId, IngredientRequest request)
+        public Product Update(Guid productId, Guid ingredientId, Product request)
         {
             var ingredient = Ingredient.Create(productId, request.Description);
 
-            return _mapper.Map<IngredientResponse>(ingredient);
+            return _mapper.Map<Product>(ingredient);
         }
     }
 }
