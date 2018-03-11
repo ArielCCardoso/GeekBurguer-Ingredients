@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GeekBurger.Ingredients.Contracts
 {
-    
+
     /// <summary>
-    /// Classe representa resposta do produto onde será encaminhado
-    /// Esta classe retorna uma lista com as restrições do produto
+    /// Request for products with restriction
     /// </summary>
-   public class ProductRestrictionRequest
+    public class ProductRestrictionRequest
     {
+        /// <summary>
+        /// List o restricition
+        /// </summary>
         public IEnumerable<string> Restrictions { get; set; }
     }
 }
