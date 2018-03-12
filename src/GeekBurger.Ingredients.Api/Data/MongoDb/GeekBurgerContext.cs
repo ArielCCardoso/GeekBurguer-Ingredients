@@ -9,9 +9,9 @@ namespace GeekBurger.Ingredients.Api.Data.MongoDb
 
         public GeekBurgerContext(Configuration configuration)
         {
-            var cliente = new MongoClient(configuration.MongoDb.Connection);
+            var client = new MongoClient(configuration.MongoDb.Connection);
 
-            Database = cliente.GetDatabase(configuration.MongoDb.Database);
+            Database = client.GetDatabase(configuration.MongoDb.Database);
         }
 
         public IMongoCollection<ProductIngredient> ProductIngredients => Database.GetCollection<ProductIngredient>("ProductIngredient");
