@@ -40,6 +40,7 @@ namespace GeekBurger.Ingredients.Api
             services.AddScoped<MockRepository>();
             services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductIngredientRepository, ProductIngredientRepository>();
         }
 
         private static void AddSwagger(IServiceCollection services)
