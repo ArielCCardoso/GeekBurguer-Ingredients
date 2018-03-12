@@ -79,6 +79,7 @@ namespace GeekBurger.Ingredients.Api
             app.UseMvc();
         }
 
+        // see changes
         private void InitializeConfigs(IServiceCollection services)
         {
             var configuration = Configuration.Get<Configuration>();
