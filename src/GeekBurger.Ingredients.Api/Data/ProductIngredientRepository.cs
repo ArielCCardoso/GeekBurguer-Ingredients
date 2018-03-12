@@ -17,12 +17,14 @@ namespace GeekBurger.Ingredients.Api.Data
 
         public async Task Save(ProductIngredient productIngredient)
         {
-            await _context.ProductIngredients.InsertOneAsync(productIngredient);
+            await _context.ProductIngredients
+                .InsertOneAsync(productIngredient);
         }
 
         public async Task Update(ProductIngredient productIngredient)
         {
-            await _context.ProductIngredients.ReplaceOneAsync(pi => pi.Id == productIngredient.Id, productIngredient);
+            await _context.ProductIngredients
+                .ReplaceOneAsync(pi => pi.Id == productIngredient.Id, productIngredient);
         }
     }
 }
