@@ -1,6 +1,10 @@
 ﻿using GeekBurger.Ingredients.Api.Data;
+using GeekBurger.Ingredients.Api.Data.Intefaces;
+using GeekBurger.Ingredients.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api.Controllers
 {
@@ -14,7 +18,7 @@ namespace GeekBurger.Ingredients.Api.Controllers
         }
 
         [HttpGet("ingredients/products")]
-        public IActionResult Get([FromQuery] string restrictions)
+        public async Task<IActionResult> Get([FromQuery] string restrictions)
         {
             var ingredients = _mockRepository.GetProducts(restrictions);
 

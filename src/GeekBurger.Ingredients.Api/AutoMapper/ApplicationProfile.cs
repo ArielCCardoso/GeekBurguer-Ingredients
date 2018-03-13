@@ -8,7 +8,7 @@ namespace GeekBurger.Ingredients.Api.AutoMapper
     {
         public ApplicationProfile()
         {
-            CreateMap<ProductIngredient, ProductResponse>();
+            CreateMap<Product, ProductResponse>();
         }
     }
 }

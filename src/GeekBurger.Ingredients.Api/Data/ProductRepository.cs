@@ -1,32 +1,31 @@
-﻿using GeekBurger.Ingredients.Api.Data.Intefaces;
+﻿using GeekBurger.Ingredients.Api.Data.Context;
+using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
-using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api.Data
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly string _productUrl;
+        private readonly GeekBurgerContext _context;
 
-        public ProductRepository(Configuration configuration)
+        public ProductRepository(GeekBurgerContext context)
         {
-            _productUrl = configuration.ProductResource;
+            _context = context;
         }
 
-        public Product GetProductByName(string name)
+        public async Task Create(Product product)
         {
-            var client = new RestClient(_productUrl);
+            _context.Products.Add(product);
 
-            var request = new RestRequest($"{name}", Method.GET);
+            await _context.SaveChangesAsync();
+        }
 
-            Product product = null;
-
-            client.ExecuteAsync<Product>(request, response =>
-            {
-                product = response.Data;
-            });
-
-            return product;
+        public Task GetProducts(IEnumerable<string> restrictions)
+        {
+            throw new NotImplementedException();
         }
     }
 }

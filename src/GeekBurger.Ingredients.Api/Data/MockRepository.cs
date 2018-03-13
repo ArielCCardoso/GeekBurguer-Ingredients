@@ -17,11 +17,9 @@ namespace GeekBurger.Ingredients.Api.Data
 
         public IEnumerable<ProductResponse> GetProducts(string restrictions)
         {
-            var products = new List<ProductIngredient>()
+            var products = new List<Product>()
             {
-               new ProductIngredient(Guid.NewGuid(), new List<string> { "meat burger", "smoked bacon", "picles" }),
-               new ProductIngredient(Guid.NewGuid(), new List<string> { "meat burger", "smoked bacon", "picles" }),
-               new ProductIngredient(Guid.NewGuid(), new List<string> { "onions", "mushrooms", "green peppers"}),
+
             };
 
             return _mapper.Map<IEnumerable<ProductResponse>>(products);

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using GeekBurger.Ingredients.Api.AutoMapper;
 using GeekBurger.Ingredients.Api.Data;
+using GeekBurger.Ingredients.Api.Data.Context;
 using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -35,15 +37,19 @@ namespace GeekBurger.Ingredients.Api
             services.AddMvc();
         }
 
-        private static void RegisterDependencies(IServiceCollection services)
+        private void RegisterDependencies(IServiceCollection services)
         {
+            services.AddDbContext<GeekBurgerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<MockRepository>();
             services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
+            services.AddScoped<IProductApiRepository, ProductApiRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductIngredientRepository, ProductIngredientRepository>();
+
+            InitializeConfigs(services);
         }
 
-        private static void AddSwagger(IServiceCollection services)
+        private void AddSwagger(IServiceCollection services)
         {
             string applicationPath = PlatformServices.Default.Application.ApplicationBasePath;
             string applicationName = PlatformServices.Default.Application.ApplicationName;
