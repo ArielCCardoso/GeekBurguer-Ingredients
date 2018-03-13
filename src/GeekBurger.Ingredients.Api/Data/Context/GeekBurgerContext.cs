@@ -13,6 +13,10 @@ namespace GeekBurger.Ingredients.Api.Data.Context
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Ingredient> Ingredients { get; set; }
+
+        public DbSet<Item> Items { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

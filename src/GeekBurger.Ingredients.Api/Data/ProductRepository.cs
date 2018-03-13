@@ -1,8 +1,9 @@
 ﻿using GeekBurger.Ingredients.Api.Data.Context;
 using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api.Data
@@ -23,9 +24,23 @@ namespace GeekBurger.Ingredients.Api.Data
             await _context.SaveChangesAsync();
         }
 
-        public Task GetProducts(IEnumerable<string> restrictions)
+        public async Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions)
         {
-            throw new NotImplementedException();
+            //return await _context.Products
+            //    .Where(p => !p.Items.Any(i => i.Ingredients.Any(g => restrictions.Contains(g.Description))))
+            //    .ToListAsync();
+
+
+            var products = from p in _context.Products
+                           join i in _context.Items
+                           on p.Id equals i.ProductId
+                           join g in _context.Ingredients
+                           on i.Id equals g.ItemId
+                           where restrictions.Contains(g.Description)
+                           select p;
+
+            return products;
+            
         }
     }
 }

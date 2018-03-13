@@ -6,7 +6,7 @@ namespace GeekBurger.Ingredients.Api.Data.Intefaces
 {
     public interface IProductRepository
     {
-        Task GetProducts(IEnumerable<string> restrictions);
+        Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions);
 
         Task Create(Product product);
     }
