@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>ada4c7a0-cceb-4032-9fef-8148c36dfe76</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/76cc50fe-979b-4c87-ab40-fea8a9cf791e/resourcegroups/GeekBurger/providers/microsoft.insights/components/geekburger-ingredients</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/76cc50fe-979b-4c87-ab40-fea8a9cf791e/resourcegroups/GeekBurger/providers/microsoft.insights/components/geekburger-ingredients</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="2.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
@@ -34,6 +37,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeekBurger.Ingredients.Contracts\GeekBurger.Ingredients.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>
