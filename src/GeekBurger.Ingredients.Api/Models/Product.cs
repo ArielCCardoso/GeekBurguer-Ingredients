@@ -8,7 +8,7 @@ namespace GeekBurger.Ingredients.Api.Models
     {
         [BsonId]
         [BsonElement("_id")]
-        public Guid Id { get; set; }
+        public Guid ProductId { get; set; }
 
         [BsonElement("items")]
         public IEnumerable<Item> Items { get; set; }

@@ -24,7 +24,7 @@ namespace GeekBurger.Ingredients.Api.Data
 
         public async Task Update(Product product)
         {
-            await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
+            await _context.Products.ReplaceOneAsync(p => p.ProductId == product.ProductId, product);
         }
 
         public async Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions)
