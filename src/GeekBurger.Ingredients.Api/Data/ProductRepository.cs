@@ -1,32 +1,44 @@
-﻿using GeekBurger.Ingredients.Api.Data.Intefaces;
+﻿using GeekBurger.Ingredients.Api.Data.Context;
+using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
-using RestSharp;
+using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api.Data
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly string _productUrl;
+        private readonly GeekBurgerContext _context;
 
-        public ProductRepository(Configuration configuration)
+        public ProductRepository(GeekBurgerContext context)
         {
-            _productUrl = configuration.ProductResource;
+            _context = context;
         }
 
-        public Product GetProductByName(string name)
+        public async Task Create(Product product)
         {
-            var client = new RestClient(_productUrl);
+            await _context.Products.InsertOneAsync(product);
+        }
 
-            var request = new RestRequest($"{name}", Method.GET);
+        public async Task Update(Product product)
+        {
+            await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
+        }
 
-            Product product = null;
+        public async Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions)
+        {
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Empty;
 
-            client.ExecuteAsync<Product>(request, response =>
+            if (restrictions != null && restrictions.Any())
             {
-                product = response.Data;
-            });
+                filter = Builders<Product>.Filter.In("product.items.ingredients", restrictions);
+            }
 
-            return product;
+            var result = await _context.Products.FindAsync(filter);
+
+            return await result.ToListAsync();
         }
     }
 }

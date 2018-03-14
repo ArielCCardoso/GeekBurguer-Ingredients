@@ -4,18 +4,18 @@ using System.Collections.Generic;
 namespace GeekBurger.Ingredients.Contracts
 {
     /// <summary>
-    /// Exposes product information and its of items
+    /// Exposes item information and its of ingredients
     /// </summary>
-    public class ProductResponse
+    public class ItemResponse
     {
         /// <summary>
-        /// Product Identifier
+        /// Item Identifier
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// List of Items
+        /// List of Ingredients
         /// </summary>
-        public IEnumerable<ItemResponse> Items { get; set; }
+        public IEnumerable<string> Ingredients { get; set; }
     }
 }

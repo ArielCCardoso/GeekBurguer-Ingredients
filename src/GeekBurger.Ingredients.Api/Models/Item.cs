@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace GeekBurger.Ingredients.Api.Models
 {
-    public class Product
+    public class Item
     {
         [BsonId]
         [BsonElement("_id")]
         public Guid Id { get; set; }
 
-        [BsonElement("items")]
-        public IEnumerable<Item> Items { get; set; }
+        [BsonElement("ingredients")]
+        public IEnumerable<string> Ingredients { get; set; }
     }
 }

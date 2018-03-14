@@ -1,9 +1,13 @@
 ﻿using GeekBurger.Ingredients.Api.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api.Data.Intefaces
 {
-    interface IProductRepository
+    public interface IProductRepository
     {
-        Product GetProductByName(string name);
+        Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions);
+
+        Task Create(Product product);
     }
 }
