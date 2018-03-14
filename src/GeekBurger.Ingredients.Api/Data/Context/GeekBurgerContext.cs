@@ -1,29 +1,19 @@
-﻿using GeekBurger.Ingredients.Api.Data.Mappings;
-using GeekBurger.Ingredients.Api.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using GeekBurger.Ingredients.Api.Models;
+using MongoDB.Driver;
 
 namespace GeekBurger.Ingredients.Api.Data.Context
 {
-    public class GeekBurgerContext: DbContext
+    public class GeekBurgerContext
     {
-        public GeekBurgerContext(DbContextOptions<GeekBurgerContext> options)
-           : base(options)
+        private readonly IMongoDatabase Database;
+
+        public GeekBurgerContext(Configuration configuration)
         {
+            var cliente = new MongoClient(configuration.MongoDb.Connection);
+
+            Database = cliente.GetDatabase(configuration.MongoDb.Database);
         }
 
-        public DbSet<Product> Products { get; set; }
-
-        public DbSet<Ingredient> Ingredients { get; set; }
-
-        public DbSet<Item> Items { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new ProductMap());
-            modelBuilder.ApplyConfiguration(new ItemMap());
-            modelBuilder.ApplyConfiguration(new IngredientMap());
-        }
+        public IMongoCollection<Product> Products => Database.GetCollection<Product>("products");
     }
 }

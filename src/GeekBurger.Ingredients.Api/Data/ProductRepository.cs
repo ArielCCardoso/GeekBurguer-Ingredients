@@ -1,7 +1,7 @@
 ﻿using GeekBurger.Ingredients.Api.Data.Context;
 using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,28 +19,26 @@ namespace GeekBurger.Ingredients.Api.Data
 
         public async Task Create(Product product)
         {
-            _context.Products.Add(product);
+            await _context.Products.InsertOneAsync(product);
+        }
 
-            await _context.SaveChangesAsync();
+        public async Task Update(Product product)
+        {
+            await _context.Products.ReplaceOneAsync(p => p.Id == product.Id, product);
         }
 
         public async Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions)
         {
-            //return await _context.Products
-            //    .Where(p => !p.Items.Any(i => i.Ingredients.Any(g => restrictions.Contains(g.Description))))
-            //    .ToListAsync();
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Empty;
 
+            if (restrictions != null && restrictions.Any())
+            {
+                filter = Builders<Product>.Filter.In("product.items.ingredients", restrictions);
+            }
 
-            var products = from p in _context.Products
-                           join i in _context.Items
-                           on p.Id equals i.ProductId
-                           join g in _context.Ingredients
-                           on i.Id equals g.ItemId
-                           where restrictions.Contains(g.Description)
-                           select p;
+            var result = await _context.Products.FindAsync(filter);
 
-            return products;
-            
+            return await result.ToListAsync();
         }
     }
 }

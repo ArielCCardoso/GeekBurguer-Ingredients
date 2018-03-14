@@ -1,16 +1,16 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace GeekBurger.Ingredients.Api.Models
 {
     public class Item
     {
-        public Guid Id { get; private set; }
+        [BsonId]
+        [BsonElement("_id")]
+        public Guid Id { get; set; }
 
-        public Guid ProductId { get; set; }
-
-        public Product Product { get; set; }
-
-        public IEnumerable<Ingredient> Ingredients { get; private set; }
+        [BsonElement("ingredients")]
+        public IEnumerable<string> Ingredients { get; set; }
     }
 }

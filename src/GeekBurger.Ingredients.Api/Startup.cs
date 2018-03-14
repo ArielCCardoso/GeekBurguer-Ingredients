@@ -7,7 +7,6 @@ using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -39,9 +38,7 @@ namespace GeekBurger.Ingredients.Api
 
         private void RegisterDependencies(IServiceCollection services)
         {
-            services.AddDbContext<GeekBurgerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddScoped<MockRepository>();
+            services.AddScoped<GeekBurgerContext>();
             services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
             services.AddScoped<IProductApiRepository, ProductApiRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
