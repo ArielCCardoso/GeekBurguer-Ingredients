@@ -11,7 +11,7 @@ namespace GeekBurger.Ingredients.Contracts
         /// <summary>
         /// Product Identifier
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid ProductId { get; set; }
 
         /// <summary>
         /// List of Items
