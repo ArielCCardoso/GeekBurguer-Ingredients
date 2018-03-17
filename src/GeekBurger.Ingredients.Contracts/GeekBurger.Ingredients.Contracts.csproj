@@ -5,6 +5,9 @@
     <Authors>Jéssica, Reginaldo, Ariel, Wellington e Guilherme</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Api de ingredientes</Description>
+    <Copyright>FIAP 2017</Copyright>
+    <RepositoryUrl>https://github.com/JessicaNathany/GeekBurguer-Ingredients</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/JessicaNathany/GeekBurguer-Ingredients</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
