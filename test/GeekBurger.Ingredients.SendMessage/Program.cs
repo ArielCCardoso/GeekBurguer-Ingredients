@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.ServiceBus;
+﻿using GeekBurger.Ingredients.Api.Models;
+using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,24 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
 
-namespace GeekBurger.Ingredients.Test.ServiceBus
+namespace GeekBurger.Ingredients.SendMessage
 {
-    public class SendMessageTest
+    class Program
     {
-        private IList<Message> _messages = new List<Message>();
-        private Task _lastTask;
+        private static IList<Message> _messages = new List<Message>();
+        private static Task _lastTask;
 
-        [Fact]
-        public async void SendMessage()
+        static void Main(string[] args)
+        {
+            SendMessage().Wait();
+        }
+
+        public static async Task SendMessage()
         {
             if (_lastTask != null && !_lastTask.IsCompleted)
                 return;
 
             _messages.Add(CreateMessage());
 
-            var connectionString = "Endpoint=sb://geekburger-ingredients.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=RtF2wx/qIn5v0xxb5BxEKRyjVm++wUXiK7Vdneswu/I=";
+            var connectionString = "Endpoint=sb://geekburger-ingredients.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=Bk416xr+T91RlSN/xdM9tjCyo9R0tWRu1Fceb3qpJmc=";
             var queueName = "label";
             var queueClient = new QueueClient(connectionString, queueName);
 
@@ -37,7 +41,7 @@ namespace GeekBurger.Ingredients.Test.ServiceBus
             HandleException(closeTask);
         }
 
-        public async Task Send(QueueClient queueClient)
+        private static async Task Send(QueueClient queueClient)
         {
             int tries = 0;
             Message message;
@@ -62,11 +66,11 @@ namespace GeekBurger.Ingredients.Test.ServiceBus
             }
         }
 
-        private Message CreateMessage()
+        private static Message CreateMessage()
         {
             var label = new Label
             {
-                ProductName = "Bacon Burger",
+                ItemName = "Bacon Burger",
                 Ingredients = new List<string>
                 {
                     "Picles",
@@ -83,11 +87,11 @@ namespace GeekBurger.Ingredients.Test.ServiceBus
             {
                 Body = labelByteArray,
                 MessageId = Guid.NewGuid().ToString(),
-                Label = label.ProductName
+                Label = label.ItemName
             };
         }
 
-        public bool HandleException(Task task)
+        private static bool HandleException(Task task)
         {
             if (task.Exception == null || task.Exception.InnerExceptions.Count == 0) return true;
 

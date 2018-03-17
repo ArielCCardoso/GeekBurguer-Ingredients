@@ -1,4 +1,5 @@
-﻿using GeekBurger.Ingredients.Api.Models;
+﻿using GeekBurger.Ingredients.Api.Events.Interfaces;
+using GeekBurger.Ingredients.Api.Models;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
@@ -8,9 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GeekBurger.Ingredients.Api.Services
+namespace GeekBurger.Ingredients.Api.Events
 {
-    public class LabelImageAddedService : ILabelImageAddedService
+    public class LabelImageReceived : ILabelImageReceived
     {
         private QueueClient _queueClient;
 
@@ -18,13 +19,13 @@ namespace GeekBurger.Ingredients.Api.Services
         private readonly string _quereName;
         private static List<Task> PendingCompleteTasks;
 
-        public LabelImageAddedService(Configuration  configuration)
+        public LabelImageReceived(Configuration  configuration)
         {
             _connectionString = configuration.ServiceBus.ConnectionString;
             _quereName = configuration.ServiceBus.Path;
         }
 
-        public async Task ReceiveMessage()
+        public async Task ProcessMessages()
         {
             PendingCompleteTasks = new List<Task>();
 
@@ -36,7 +37,7 @@ namespace GeekBurger.Ingredients.Api.Services
 
             await Task.WhenAll(PendingCompleteTasks);
 
-            await _queueClient.CloseAsync();
+            //await _queueClient.CloseAsync();
         }
 
         private async Task MessageHandler(Message message, CancellationToken cancellationToken)
@@ -46,7 +47,7 @@ namespace GeekBurger.Ingredients.Api.Services
 
             string messageBody = Encoding.UTF8.GetString(message.Body);
 
-            Label label = JsonConvert.DeserializeObject<Label>(messageBody);
+            var label = JsonConvert.DeserializeObject<Label>(messageBody);
 
             Thread.Sleep(1500); // process message
 

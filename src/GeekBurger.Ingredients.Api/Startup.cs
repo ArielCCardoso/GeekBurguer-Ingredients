@@ -3,13 +3,18 @@ using GeekBurger.Ingredients.Api.AutoMapper;
 using GeekBurger.Ingredients.Api.Data;
 using GeekBurger.Ingredients.Api.Data.Context;
 using GeekBurger.Ingredients.Api.Data.Intefaces;
+using GeekBurger.Ingredients.Api.Events;
+using GeekBurger.Ingredients.Api.Events.Interfaces;
 using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services;
+using GeekBurger.Ingredients.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api
 {
@@ -23,11 +28,13 @@ namespace GeekBurger.Ingredients.Api
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public async void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(m => m.AddProfile(new ApplicationProfile()));
 
             RegisterDependencies(services);
+
+            await RunBackgroundTasks(services);
 
             services.AddSwaggerGen(c =>
             {
@@ -40,13 +47,20 @@ namespace GeekBurger.Ingredients.Api
         private void RegisterDependencies(IServiceCollection services)
         {
             services.AddScoped<GeekBurgerContext>();
-            services.AddScoped<ILabelImageAddedService, LabelImageAddedService>();
-            services.AddScoped<IProductApiRepository, ProductApiRepository>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddSingleton<ILabelImageReceived, LabelImageReceived>();
 
             var configuration = Configuration.Get<Configuration>();
-
             services.AddSingleton(configuration);
+        }
+
+        private async Task RunBackgroundTasks(IServiceCollection services)
+        {
+            IServiceProvider provider = services.BuildServiceProvider();
+            var labelImageReceived = provider.GetService<ILabelImageReceived>();
+
+            await labelImageReceived.ProcessMessages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

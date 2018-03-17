@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.Ingredients.Api"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.Ingredients.Contracts", "src\GeekBurger.Ingredients.Contracts\GeekBurger.Ingredients.Contracts.csproj", "{06191CC8-A2C8-4011-B144-AA72D4C600D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Ingredients.Test", "test\GeekBurger.Ingredients.Test\GeekBurger.Ingredients.Test.csproj", "{E1B5BCBF-C6CD-427C-AA2D-06BB3A5165BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Ingredients.SendMessage", "test\GeekBurger.Ingredients.SendMessage\GeekBurger.Ingredients.SendMessage.csproj", "{DEA4315E-25E0-4CDC-AB64-1E54B56D1D28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{06191CC8-A2C8-4011-B144-AA72D4C600D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06191CC8-A2C8-4011-B144-AA72D4C600D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06191CC8-A2C8-4011-B144-AA72D4C600D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1B5BCBF-C6CD-427C-AA2D-06BB3A5165BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1B5BCBF-C6CD-427C-AA2D-06BB3A5165BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1B5BCBF-C6CD-427C-AA2D-06BB3A5165BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1B5BCBF-C6CD-427C-AA2D-06BB3A5165BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA4315E-25E0-4CDC-AB64-1E54B56D1D28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA4315E-25E0-4CDC-AB64-1E54B56D1D28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA4315E-25E0-4CDC-AB64-1E54B56D1D28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA4315E-25E0-4CDC-AB64-1E54B56D1D28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

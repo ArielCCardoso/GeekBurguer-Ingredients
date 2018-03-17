@@ -1,14 +1,14 @@
-﻿using GeekBurger.Ingredients.Api.Data.Intefaces;
-using GeekBurger.Ingredients.Api.Models;
+﻿using GeekBurger.Ingredients.Api.Models;
+using GeekBurger.Ingredients.Api.Services.Interfaces;
 using RestSharp;
 
-namespace GeekBurger.Ingredients.Api.Data
+namespace GeekBurger.Ingredients.Api.Services
 {
-    public class ProductApiRepository : IProductApiRepository
+    public class ProductService : IProductService
     {
         private readonly string _productUrl;
 
-        public ProductApiRepository(Configuration configuration)
+        public ProductService(Configuration configuration)
         {
             _productUrl = configuration.ProductResource;
         }

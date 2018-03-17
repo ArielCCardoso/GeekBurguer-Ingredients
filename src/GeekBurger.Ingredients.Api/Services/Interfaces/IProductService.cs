@@ -1,8 +1,8 @@
 ﻿using GeekBurger.Ingredients.Api.Models;
 
-namespace GeekBurger.Ingredients.Api.Data.Intefaces
+namespace GeekBurger.Ingredients.Api.Services.Interfaces
 {
-    interface IProductApiRepository
+    public interface IProductService
     {
         ProductContract GetProductByName(string name);
     }
