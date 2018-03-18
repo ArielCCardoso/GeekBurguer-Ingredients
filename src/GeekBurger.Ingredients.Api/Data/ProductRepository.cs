@@ -17,17 +17,15 @@ namespace GeekBurger.Ingredients.Api.Data
             _context = context;
         }
 
-        public async Task Create(Product product)
+        public async Task Save(Product product)
         {
-            await _context.Products.InsertOneAsync(product);
+            var options = new UpdateOptions() { IsUpsert = true };
+
+            await _context.Products
+                .ReplaceOneAsync(p => p.ProductId == product.ProductId, product, options);
         }
 
-        public async Task Update(Product product)
-        {
-            await _context.Products.ReplaceOneAsync(p => p.ProductId == product.ProductId, product);
-        }
-
-        public async Task<IEnumerable<Product>> GetProducts(IEnumerable<string> restrictions)
+        public async Task<IEnumerable<Product>> Get(IEnumerable<string> restrictions)
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Empty;
 

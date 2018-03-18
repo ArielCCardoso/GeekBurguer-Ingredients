@@ -1,5 +1,6 @@
 ﻿using GeekBurger.Ingredients.Api.Events.Interfaces;
 using GeekBurger.Ingredients.Api.Models;
+using GeekBurger.Ingredients.Api.Services.Interfaces;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
@@ -14,15 +15,16 @@ namespace GeekBurger.Ingredients.Api.Events
     public class LabelImageReceived : ILabelImageReceived
     {
         private QueueClient _queueClient;
-
         private readonly string _connectionString;
         private readonly string _quereName;
+        private readonly IProductService _productService;
         private static List<Task> PendingCompleteTasks;
 
-        public LabelImageReceived(Configuration  configuration)
+        public LabelImageReceived(Configuration  configuration, IProductService productService)
         {
             _connectionString = configuration.ServiceBus.ConnectionString;
             _quereName = configuration.ServiceBus.Path;
+            _productService = productService;
         }
 
         public async Task ProcessMessages()
@@ -49,9 +51,9 @@ namespace GeekBurger.Ingredients.Api.Events
 
             var label = JsonConvert.DeserializeObject<Label>(messageBody);
 
-            Thread.Sleep(1500); // process message
+            await _productService.Save(label);
 
-            Task PendingCompleteTask;
+             Task PendingCompleteTask;
             lock (PendingCompleteTasks)
             {
                 PendingCompleteTasks.Add(_queueClient.CompleteAsync(message.SystemProperties.LockToken));

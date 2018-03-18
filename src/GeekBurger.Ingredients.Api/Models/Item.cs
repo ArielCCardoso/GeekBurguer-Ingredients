@@ -10,6 +10,9 @@ namespace GeekBurger.Ingredients.Api.Models
         [BsonElement("_id")]
         public Guid Id { get; set; }
 
+        [BsonElement("name")]
+        public string Name { get; set; }
+
         [BsonElement("ingredients")]
         public IEnumerable<string> Ingredients { get; set; }
     }

@@ -27,7 +27,7 @@ namespace GeekBurger.Ingredients.Api.Controllers
             {
                 IEnumerable<string> listRestrictions = !string.IsNullOrEmpty(restrictions) ? restrictions.Split(",") : null;
 
-                var products = await _productRepository.GetProducts(listRestrictions);
+                var products = await _productRepository.Get(listRestrictions);
 
                 var response = _mapper.Map<IEnumerable<ProductResponse>>(products);
 
