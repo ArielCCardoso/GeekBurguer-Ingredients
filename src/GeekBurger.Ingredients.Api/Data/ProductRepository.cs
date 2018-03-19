@@ -31,7 +31,7 @@ namespace GeekBurger.Ingredients.Api.Data
 
             if (restrictions != null && restrictions.Any())
             {
-                filter = Builders<Product>.Filter.In("product.items.ingredients", restrictions);
+                filter = Builders<Product>.Filter.In("items.ingredients", restrictions);
             }
 
             var result = await _context.Products.FindAsync(filter);
