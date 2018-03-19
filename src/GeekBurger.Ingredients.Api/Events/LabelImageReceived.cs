@@ -1,6 +1,7 @@
 ﻿using GeekBurger.Ingredients.Api.Events.Interfaces;
 using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services.Interfaces;
+using GeekBurger.LabelLoader.Contract;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
@@ -49,7 +50,13 @@ namespace GeekBurger.Ingredients.Api.Events
 
             string messageBody = Encoding.UTF8.GetString(message.Body);
 
-            var label = JsonConvert.DeserializeObject<Label>(messageBody);
+            var labelImageAddedOut = JsonConvert.DeserializeObject<ILabelImageAddedOut>(messageBody);
+
+            var label = new Label
+            {
+                ItemName = labelImageAddedOut.ItemName,
+                Ingredients = labelImageAddedOut.Ingredients
+            };
 
             await _productService.Save(label);
 
