@@ -2,6 +2,7 @@
 using GeekBurger.Ingredients.Api.Data.Intefaces;
 using GeekBurger.Ingredients.Api.Models;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace GeekBurger.Ingredients.Api.Data
             var products = await result.ToListAsync();
 
             if (restrictions != null && restrictions.Any())
-                return products.Where(p => p.Items.Any(i => !i.Ingredients.Any(g => restrictions.Contains(g))));
+                return products.Where(p => p.Items.Any(i => !i.Ingredients.Any(g => restrictions.Contains(g.ToLower(), StringComparer.InvariantCultureIgnoreCase))));
 
             return products;
         }
