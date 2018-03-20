@@ -2,9 +2,9 @@
 using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services.Interfaces;
 using GeekBurger.LabelLoader.Contract;
+using Microsoft.ApplicationInsights;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +50,8 @@ namespace GeekBurger.Ingredients.Api.Events
 
             string messageBody = Encoding.UTF8.GetString(message.Body);
 
+            TraceEvent(messageBody);
+
             var labelImageAddedOut = JsonConvert.DeserializeObject<ILabelImageAddedOut>(messageBody);
 
             var label = new Label
@@ -60,7 +62,7 @@ namespace GeekBurger.Ingredients.Api.Events
 
             await _productService.Save(label);
 
-             Task PendingCompleteTask;
+            Task PendingCompleteTask;
             lock (PendingCompleteTasks)
             {
                 PendingCompleteTasks.Add(_queueClient.CompleteAsync(message.SystemProperties.LockToken));
@@ -72,13 +74,28 @@ namespace GeekBurger.Ingredients.Api.Events
             PendingCompleteTasks.Remove(PendingCompleteTask);
         }
 
+        private void TraceEvent(string messageBody)
+        {
+            var context = new Dictionary<string, string>
+            {
+                { "message", messageBody }
+            };
+
+            var telemetryClient = new TelemetryClient();
+            telemetryClient.TrackEvent("LabelReceived", context);
+        }
+
         private Task ExceptionHandler(ExceptionReceivedEventArgs arg)
         {
-            Console.WriteLine($"Message handler encountered an exception { arg.Exception}.");
+            var context = new Dictionary<string, string>
+            {
+                { "Endpoint", arg.ExceptionReceivedContext.Endpoint },
+                { "Path", arg.ExceptionReceivedContext.EntityPath },
+                { "Action", arg.ExceptionReceivedContext.Action }
+            };
 
-            var context = arg.ExceptionReceivedContext;
-
-            Console.WriteLine($"- Endpoint: {context.Endpoint}, Path: { context.EntityPath}, Action: { context.Action}");
+            var telemetry = new TelemetryClient();
+            telemetry.TrackException(arg.Exception);
 
             return Task.CompletedTask;
         }
