@@ -29,14 +29,19 @@ namespace GeekBurger.Ingredients.Api.Data
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Empty;
 
-            if (restrictions != null && restrictions.Any())
-            {
-                filter = Builders<Product>.Filter.In("items.ingredients", restrictions);
-            }
+            //if (restrictions != null && restrictions.Any())
+            //{
+            //    filter = Builders<Product>.Filter.In("items.ingredients", restrictions);
+            //}
 
             var result = await _context.Products.FindAsync(filter);
 
-            return await result.ToListAsync();
+            var products = await result.ToListAsync();
+
+            if (restrictions != null && restrictions.Any())
+                return products.Where(p => p.Items.Any(i => !i.Ingredients.Any(g => restrictions.Contains(g))));
+
+            return products;
         }
     }
 }
