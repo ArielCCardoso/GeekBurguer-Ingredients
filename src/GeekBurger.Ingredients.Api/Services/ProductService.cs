@@ -41,7 +41,17 @@ namespace GeekBurger.Ingredients.Api.Services
 
         public IEnumerable<ProductToGet> GetProductByName(string itemName)
         {
-            List<ProductToGet> products = GetProductsFromResource();
+            var products = new List<ProductToGet>();
+
+            List<ProductToGet> productsFromPasadena = GetProductsFromResource(Store.Pasadena);
+
+            if (productsFromPasadena != null)
+                products.AddRange(productsFromPasadena);
+
+            List<ProductToGet> productsFromBeverlyHills = GetProductsFromResource(Store.BeverlyHills);
+
+            if (productsFromBeverlyHills != null)
+                products.AddRange(productsFromBeverlyHills);
 
             if (products == null)
                 return null;
@@ -49,9 +59,9 @@ namespace GeekBurger.Ingredients.Api.Services
             return products.Where(p => p.Items.Any(i => i.Name.ToLower() == itemName.ToLower()));
         }
 
-        private List<ProductToGet> GetProductsFromResource()
+        private List<ProductToGet> GetProductsFromResource(string storeName)
         {
-            var client = new RestClient(_productUrl);
+            var client = new RestClient(_productUrl + $"?storeName={storeName}");
 
             var request = new RestRequest(Method.GET);
 
