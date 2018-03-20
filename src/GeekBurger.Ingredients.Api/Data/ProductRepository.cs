@@ -39,6 +39,7 @@ namespace GeekBurger.Ingredients.Api.Data
 
             var products = await result.ToListAsync();
 
+            // TODO: Improvement filter in memory
             if (restrictions != null && restrictions.Any())
                 return products.Where(p => p.Items.Any(i => !i.Ingredients.Any(g => restrictions.Contains(g.ToLower(), StringComparer.InvariantCultureIgnoreCase))));
 
