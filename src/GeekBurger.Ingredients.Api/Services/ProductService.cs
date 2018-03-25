@@ -4,6 +4,7 @@ using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services.Interfaces;
 using GeekBurger.Products.Contract;
 using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace GeekBurger.Ingredients.Api.Services
             _mapper = mapper;
         }
 
-        public async Task Save(Label label)
+        public async Task AddIngredients(Label label)
         {
             IEnumerable<ProductToGet> productsToGet = GetProductByName(label.ItemName);
 
@@ -39,7 +40,53 @@ namespace GeekBurger.Ingredients.Api.Services
             }
         }
 
-        public IEnumerable<ProductToGet> GetProductByName(string itemName)
+        public async Task Update(ProductToGet productToGet)
+        {
+            Product product = await _productRepository.Get(productToGet.ProductId);
+
+            if (product == null) return;
+
+            // Looking for items remove or changed 
+            var itemsToRemove = new List<Item>();
+
+            foreach (var item in product.Items)
+            {
+                var itemToGet = productToGet.Items.FirstOrDefault(p => p.ItemId == item.Id);
+
+                if (itemToGet == null)
+                {
+                    itemsToRemove.Add(item);
+                }
+                else
+                {
+                    item.Name = itemToGet.Name;
+                }
+            }
+
+            // Seeking for items added
+            foreach (var itemToGet in productToGet.Items)
+            {
+                if (!product.Items.Exists(i => i.Id == itemToGet.ItemId))
+                {
+                    product.AddItem(itemToGet.ItemId, itemToGet.Name);
+                }
+            }
+
+            // Removing items
+            foreach (var itemToRemove in product.Items)
+            {
+                product.RemoveItem(itemToRemove.Id);
+            }
+
+            await _productRepository.Save(product);
+        }
+
+        public async Task Remove(Guid productId)
+        {
+            await _productRepository.Remove(productId);
+        }
+
+        private IEnumerable<ProductToGet> GetProductByName(string itemName)
         {
             var products = new List<ProductToGet>();
 

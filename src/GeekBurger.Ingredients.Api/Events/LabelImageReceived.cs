@@ -2,7 +2,6 @@
 using GeekBurger.Ingredients.Api.Models;
 using GeekBurger.Ingredients.Api.Services.Interfaces;
 using GeekBurger.LabelLoader.Contract;
-using Microsoft.ApplicationInsights;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GeekBurger.Ingredients.Api.Events
 {
-    public class LabelImageReceived : ILabelImageReceived
+    public class LabelImageReceived : Event, ILabelImageReceived
     {
         private QueueClient _queueClient;
         private readonly string _connectionString;
@@ -23,24 +22,30 @@ namespace GeekBurger.Ingredients.Api.Events
 
         public LabelImageReceived(Configuration  configuration, IProductService productService)
         {
-            _connectionString = configuration.ServiceBus.ConnectionString;
-            _quereName = configuration.ServiceBus.Path;
+            _connectionString = configuration.ServiceBus.LabelLoader.ConnectionString;
+            _quereName = configuration.ServiceBus.LabelLoader.Path;
             _productService = productService;
         }
 
         public async Task ProcessMessages()
         {
-            PendingCompleteTasks = new List<Task>();
+            try
+            {
+                PendingCompleteTasks = new List<Task>();
 
-            _queueClient = new QueueClient(_connectionString, _quereName, ReceiveMode.PeekLock);
+                _queueClient = new QueueClient(_connectionString, _quereName, ReceiveMode.PeekLock);
 
-            var handlerOptions = new MessageHandlerOptions(ExceptionHandler) { AutoComplete = false, MaxConcurrentCalls = 3 };
+                var handlerOptions = new MessageHandlerOptions(ExceptionHandler) { AutoComplete = false, MaxConcurrentCalls = 3 };
 
-            _queueClient.RegisterMessageHandler(MessageHandler, handlerOptions);
+                _queueClient.RegisterMessageHandler(MessageHandler, handlerOptions);
 
-            await Task.WhenAll(PendingCompleteTasks);
+                await Task.WhenAll(PendingCompleteTasks);
 
-            //await _queueClient.CloseAsync();
+                //await _queueClient.CloseAsync();
+            }
+            catch 
+            {
+            }
         }
 
         private async Task MessageHandler(Message message, CancellationToken cancellationToken)
@@ -60,7 +65,7 @@ namespace GeekBurger.Ingredients.Api.Events
                 Ingredients = labelImageAddedOut.Ingredients
             };
 
-            await _productService.Save(label);
+            await _productService.AddIngredients(label);
 
             Task PendingCompleteTask;
             lock (PendingCompleteTasks)
@@ -72,32 +77,6 @@ namespace GeekBurger.Ingredients.Api.Events
             await PendingCompleteTask;
 
             PendingCompleteTasks.Remove(PendingCompleteTask);
-        }
-
-        private void TraceEvent(string messageBody)
-        {
-            var context = new Dictionary<string, string>
-            {
-                { "message", messageBody }
-            };
-
-            var telemetryClient = new TelemetryClient();
-            telemetryClient.TrackEvent("LabelReceived", context);
-        }
-
-        private Task ExceptionHandler(ExceptionReceivedEventArgs arg)
-        {
-            var context = new Dictionary<string, string>
-            {
-                { "Endpoint", arg.ExceptionReceivedContext.Endpoint },
-                { "Path", arg.ExceptionReceivedContext.EntityPath },
-                { "Action", arg.ExceptionReceivedContext.Action }
-            };
-
-            var telemetry = new TelemetryClient();
-            telemetry.TrackException(arg.Exception);
-
-            return Task.CompletedTask;
         }
     }
 }

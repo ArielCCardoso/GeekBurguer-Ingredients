@@ -50,6 +50,7 @@ namespace GeekBurger.Ingredients.Api
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddSingleton<ILabelImageReceived, LabelImageReceived>();
+            services.AddSingleton<IProductChanged, ProductChanged>();
 
             var configuration = Configuration.Get<Configuration>();
             services.AddSingleton(configuration);
@@ -59,8 +60,10 @@ namespace GeekBurger.Ingredients.Api
         {
             IServiceProvider provider = services.BuildServiceProvider();
             var labelImageReceived = provider.GetService<ILabelImageReceived>();
+            var productChanged = provider.GetService<IProductChanged>();
 
             await labelImageReceived.ProcessMessages();
+            await productChanged.ProcessMessages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

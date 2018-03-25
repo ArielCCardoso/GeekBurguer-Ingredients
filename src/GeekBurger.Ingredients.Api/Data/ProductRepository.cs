@@ -18,6 +18,13 @@ namespace GeekBurger.Ingredients.Api.Data
             _context = context;
         }
 
+        public async Task<Product> Get(Guid productId)
+        {
+            var result = await _context.Products.FindAsync(p => p.ProductId == productId);
+
+            return await result.FirstOrDefaultAsync();
+        }
+
         public async Task Save(Product product)
         {
             var options = new UpdateOptions() { IsUpsert = true };
@@ -44,6 +51,11 @@ namespace GeekBurger.Ingredients.Api.Data
                 return products.Where(p => p.Items.Any(i => !i.Ingredients.Any(g => restrictions.Contains(g.ToLower(), StringComparer.InvariantCultureIgnoreCase))));
 
             return products;
+        }
+
+        public async Task Remove(Guid productId)
+        {
+            await _context.Products.DeleteOneAsync(p => p.ProductId == productId);
         }
     }
 }

@@ -11,9 +11,17 @@
 
     public class ServiceBus
     {
+        public Queue LabelLoader { get; set; }
+        public Queue Product { get; set; }
+    }
+
+    public class Queue
+    {
         public string ConnectionString { get; set; }
 
         public string Path { get; set; }
+
+        public string SubscriptionName { get; set; }
     }
 
     public class MongoDb
