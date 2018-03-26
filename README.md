@@ -6,30 +6,30 @@ Microservice de Ingredientes matéria de Arquitetura de Integração e Microserv
 
 Este microserviço encarrega-se de entregar uma lista de produtos, filtrados por restrições de ingredientes impostas pelo usuario.
 
-### Swagger
+## Swagger
 
 Swagger do microserviço: http://geekburger-ingredients.azurewebsites.net/swagger/
 
-### Autores
+## Autores
 36155 - Guilherme Mendonça
-31231 - Reginaldo Barros
-32083 - Jessica Nathany
-31889 - Wellington Castor
-31993 - Ariel Cavalcante
+*31231 - Reginaldo Barros
+*32083 - Jessica Nathany
+*31889 - Wellington Castor
+*31993 - Ariel Cavalcante
 
-### Como usar
+## Como usar
 
-# Instalação do contrato
+### Instalação do contrato
 
 
-# Request
+### Request
 
 Exemplo:
     "https://geekburger.azure-api.net/ingredients/ingredients/products?restriction=XXXXX"
 
   O termo "restriction" (indicando as restrições dos ingrediente) da query string, é uma string, aceita mais de um parâmetro, concatenado por ",", sem restrição de quantidade de restrições. A API então busca e retorna os produtos que não possuem os ingredientes passados como parâmetro. Caso não haja restrições, todos os produtos são retornados.
 
-# Response
+### Response
 
 Code: "200" Success
 Body:
@@ -66,8 +66,8 @@ Code: "500" Error
 ]
 ```
 
-### Tecnologias utilizadas
+## Tecnologias utilizadas
 
-## MongoDB
+### MongoDB
 
-## Asp.NET Core
+### Asp.NET Core
