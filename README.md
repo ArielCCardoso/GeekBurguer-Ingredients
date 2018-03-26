@@ -11,7 +11,7 @@ Este microserviço encarrega-se de entregar uma lista de produtos, filtrados por
 Swagger do microserviço: http://geekburger-ingredients.azurewebsites.net/swagger/
 
 ## Autores
-36155 - Guilherme Mendonça
+* 36155 - Guilherme Mendonça
 * 31231 - Reginaldo Barros
 * 32083 - Jessica Nathany
 * 31889 - Wellington Castor
@@ -52,10 +52,10 @@ Body:
 
 O response da requisição é um JSON, que traz as informações:
 
-* -productId: Id do produto/Hamburguer
-* -Items: 
-*      -"id": Id do item presente no hamburguer
-*      -"ingredients": Dados dos ingredientes base do item
+⋅⋅⋅ -productId: Id do produto/Hamburguer
+⋅⋅⋅ -Items: 
+⋅⋅⋅      -"id": Id do item presente no hamburguer
+⋅⋅⋅      -"ingredients": Dados dos ingredientes base do item
 
 Code: "500" Error
 ```
