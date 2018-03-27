@@ -54,8 +54,8 @@ O response da requisição é um JSON, que traz as informações:
 
 -productId: Id do produto/Hamburguer <br />
 -Items: <br />
-      -"id": Id do item presente no hamburguer <br />
-      -"ingredients": Dados dos ingredientes base do item <br />
+&nbsp&&nbsp&&nbsp&-"id": Id do item presente no hamburguer <br />
+&nbsp&&nbsp&&nbsp&-"ingredients": Dados dos ingredientes base do item <br />
 
 Code: "500" Error
 ```
