@@ -21,6 +21,10 @@ Swagger do microserviço: http://geekburger-ingredients.azurewebsites.net/swagge
 
 ### Instalação do contrato
 
+Nuget Package Source
+[FIAP Nuget](https://nugetserverfiap11net.azurewebsites.net/nuget).
+
+Na console do nuget, digite: Install Package GeekBurger.Ingredients.Contracts
 
 ### Request
 
@@ -54,8 +58,8 @@ O response da requisição é um JSON, que traz as informações:
 
 -productId: Id do produto/Hamburguer <br />
 -Items: <br />
-&nbsp&nbsp&nbsp-"id": Id do item presente no hamburguer <br />
-&nbsp&nbsp&nbsp-"ingredients": Dados dos ingredientes base do item <br />
+           -"id": Id do item presente no hamburguer <br />
+           -"ingredients": Dados dos ingredientes base do item <br />
 
 Code: "500" Error
 ```
@@ -70,4 +74,9 @@ Code: "500" Error
 
 ### MongoDB
 
+        MongoDB é um banco de dados de código aberto, gratuito, de alta performance, sem esquemas e orientado à documentos, lançado em fevereiro de 2009. Foi escrito na linguagem de programação C++ (o que o torna portável para diferentes sistemas operacionais).
+        
+
 ### Asp.NET Core
+
+        O ASP.NET Core é uma estrutura de software livre, de multiplaforma e alto desempenho para a criação de aplicativos modernos conectados à Internet e baseados em nuvem.
