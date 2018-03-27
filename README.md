@@ -36,6 +36,7 @@ Exemplo:
 ### Response
 
 Code: "200" Success
+
 Body:
 ```
 [
@@ -62,6 +63,8 @@ O response da requisição é um JSON, que traz as informações:
            -"ingredients": Dados dos ingredientes base do item <br />
 
 Code: "500" Error
+
+Body:
 ```
 [
   {
@@ -74,9 +77,9 @@ Code: "500" Error
 
 ### MongoDB
 
-        MongoDB é um banco de dados de código aberto, gratuito, de alta performance, sem esquemas e orientado à documentos, lançado em fevereiro de 2009. Foi escrito na linguagem de programação C++ (o que o torna portável para diferentes sistemas operacionais).
+MongoDB é um banco de dados de código aberto, gratuito, de alta performance, sem esquemas e orientado à documentos, lançado em fevereiro de 2009. Foi escrito na linguagem de programação C++ (o que o torna portável para diferentes sistemas operacionais).
         
 
 ### Asp.NET Core
 
-        O ASP.NET Core é uma estrutura de software livre, de multiplaforma e alto desempenho para a criação de aplicativos modernos conectados à Internet e baseados em nuvem.
+O ASP.NET Core é uma estrutura de software livre, de multiplaforma e alto desempenho para a criação de aplicativos modernos conectados à Internet e baseados em nuvem.
