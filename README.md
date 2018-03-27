@@ -52,10 +52,10 @@ Body:
 
 O response da requisição é um JSON, que traz as informações:
 
-⋅⋅⋅ -productId: Id do produto/Hamburguer⋅⋅
-⋅⋅⋅ -Items: ⋅⋅
-⋅⋅⋅      -"id": Id do item presente no hamburguer ⋅⋅
-⋅⋅⋅      -"ingredients": Dados dos ingredientes base do item ⋅⋅
+-productId: Id do produto/Hamburguer <br />
+-Items: <br />
+      -"id": Id do item presente no hamburguer <br />
+      -"ingredients": Dados dos ingredientes base do item <br />
 
 Code: "500" Error
 ```
@@ -71,6 +71,3 @@ Code: "500" Error
 ### MongoDB
 
 ### Asp.NET Core
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
-⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
-⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
